@@ -1,0 +1,39 @@
+BACKUP ~HunterKit/Backup~
+AUTHOR ~Jarly~
+VERSION ~1.2~
+
+ALWAYS
+  // root folder for mutable data
+  OUTER_TEXT_SPRINT WORK_FOLDER ~weidu_external~
+
+  ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN
+    FAIL ~DLC Merger is required before mods can be installed on this game.~
+  END
+END
+
+LANGUAGE ~Russian~ ~Russian~ ~%MOD_FOLDER%/Tra/Russian/Setup.tra~
+
+BEGIN ~Hunter Kit~
+//DESIGNATED 0
+LABEL ~J5_ADD_KIT_HUNTER~
+
+COPY ~%MOD_FOLDER%/files~ ~override~
+
+INCLUDE ~%MOD_FOLDER%/lib/d2_icon_function.tpa~
+COPY ~%MOD_FOLDER%/icons/deblow.BAM~ ~override/deblow.BAM~
+LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@3) STR_VAR bam=~deblow~ RET icon END
+
+COPY ~%MOD_FOLDER%/spells/J5DEBLOW.SPL~ ~override~
+  SAY NAME1 @3
+  SAY UNIDENTIFIED_DESC @4
+  LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
+
+INCLUDE ~%MOD_FOLDER%/lib/hunter_kit.tph~
+
+BEGIN ~Reasonable Ranger Additions~
+//DESIGNATED 1
+LABEL ~J5_REASONABLE_RANGER_ADDITIONS~
+
+INCLUDE ~%MOD_FOLDER%/lib/ranger_additions.tph~
+
+LAF ranger_additions END

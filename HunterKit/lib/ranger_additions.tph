@@ -1,0 +1,72 @@
+//
+//
+
+
+DEFINE_ACTION_FUNCTION ranger_additions BEGIN
+
+
+//CHANGE CLASS TEXT_________________________________________________________________
+//
+ACTION_FOR_EACH text_file IN ~clastext~ ~sodcltxt~ ~bgclatxt~ BEGIN
+  COPY_EXISTING ~%text_file%.2da~ ~override~
+    COUNT_2DA_COLS cols
+    COUNT_2DA_ROWS cols rows
+    FOR (row = 1; row < rows; ++row) BEGIN
+      READ_2DA_ENTRY row 0 cols kit_name
+      READ_2DA_ENTRY row 1 cols kitlist_name
+      PATCH_IF (~%kit_name%~ STRING_EQUAL_CASE ~RANGER~) BEGIN
+        SET_2DA_ENTRY row 4 cols RESOLVE_STR_REF (@5)
+      END
+    END
+  IF_EXISTS BUT_ONLY
+END
+
+
+// first, get all rangers____________________________________________________________
+// 
+OUTER_SPRINT $rangers_array(~RANGER~)~CLABRN01~
+
+COPY_EXISTING ~kitlist.2da~ ~override~
+  COUNT_2DA_ROWS 9 rows
+  FOR (row = 2; row < rows; ++row ) BEGIN
+    READ_2DA_ENTRY row 1 9 kit_name
+    READ_2DA_ENTRY row 5 9 kit_clab
+    READ_2DA_ENTRY row 8 9 kit_class
+    PATCH_IF (kit_class = 12) BEGIN
+      SPRINT $rangers_array(~%kit_name%~)~%kit_clab%~
+    END
+  END
+BUT_ONLY
+
+
+// 'alertness' - increased visual range______________________________________________
+// 
+COPY ~%MOD_FOLDER%/spells/base.spl~ ~override/j5rnvis.spl~
+  LPF ALTER_SPELL_HEADER INT_VAR target = 5 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode = 262 target = 1 parameter1 = 2 parameter2 = 0 timing = 9 END
+  LPF ADD_SPELL_EFFECT INT_VAR insert_point = 0 opcode = 321 target = 1 timing = 1 STR_VAR resource = ~j5rnvis~ END
+
+ACTION_PHP_EACH rangers_array AS kit => clab BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%clab%.2da~) BEGIN
+    APPEND ~%clab%.2da~ ~ALERT      AP_J5RNVIS ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****        ****       ****       ****       ****       ****       ****  ~
+  END
+END
+//___________________________________________________________________________________
+
+
+// 'toughness' - saves vs death, poison resistance___________________________________
+// 
+COPY ~%MOD_FOLDER%/spells/base.spl~ ~override/j5rnpois.spl~
+  LPF ALTER_SPELL_HEADER INT_VAR target = 5 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode = 33 target = 1 parameter1 = 4 parameter2 = 0 timing = 9 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode = 173 target = 1 parameter1 = 25 timing = 9 END
+  LPF ADD_SPELL_EFFECT INT_VAR insert_point = 0 opcode = 321 target = 1 timing = 1 STR_VAR resource = ~j5rnpois~ END
+
+ACTION_PHP_EACH rangers_array AS kit => clab BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%clab%.2da~) BEGIN
+    APPEND ~%clab%.2da~ ~POISON     AP_J5RNPOIS ****      ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****        ****       ****       ****       ****       ****       ****  ~
+  END
+END
+//___________________________________________________________________________________
+
+END

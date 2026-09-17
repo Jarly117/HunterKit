@@ -1,0 +1,56 @@
+// *** Test: add new kit ***
+
+INCLUDE ~%MOD_FOLDER%/lib/a7#add_kit_ex.tpa~
+
+ACTION_IF GAME_IS ~iwdee~ BEGIN
+<<<<<<<< .../HunterKit/inlined/J5HUNTER.2DA
+2DA        V1.0
+****
+           1          2          3          4          5          6          7          8          9          10         11         12         13         14         15         16         17         18         19         20         21         22         23         24         25         26         27         28         29         30         31         32         33         34         35         36         37         38         39         40
+ABILITY1   GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****       GA_SPCL311 ****
+ABILITY2   AP_J5SPHUNT ****       ****       ****       AP_J5HUNTIM ****       AP_J5HUNTAC ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****
+ABILITY3   AP_J5HUNDIS ****       ****       ****       ****       ****       ****       ****       GA_J5DEBLOW ****       ****       ****       GA_J5DEBLOW ****       ****       ****       GA_J5DEBLOW ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****
+ABILITY4   GA_SPCL922 ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****       ****
+>>>>>>>>
+END
+
+COPY ~.../HunterKit/inlined/J5HUNTER.2DA~ ~override~
+
+// Note: Parent class values are used for omitted parameters
+LAF ADD_KIT_EX
+  INT_VAR
+    kit_class     = 12   // Ranger
+    mixed         = RESOLVE_STR_REF(@0)
+    lower         = RESOLVE_STR_REF(@1)
+    help          = RESOLVE_STR_REF(@2)
+    // EE-specific arguments
+    briefdesc     = RESOLVE_STR_REF(@2)
+  STR_VAR
+    kit_name      = ~J5HUNTER~
+    unusable      = ~0x00010000~
+    clasweap      = ~0 0 1 1 1 1 1 1~
+    weapprof      = ~0 0 3 2 2 2 3 3 0 0 0 3 0 0 0 3 0 2 2 0 0 2 2 3 3 3 3 3 2 0 2 3~
+    // abclasrq      = ~9 0 0 0 0 0~
+    // abclsmod      = ~0 0 0 0 0 0~
+    // abdcdsrq      = ~17 0 0 0 0 0~
+    // abdcscrq      = ~15 0 0 0 0 0~
+    alignmnt      = ~1 1 1 1 1 1 1 1 1~
+    // dualclas      = ~0 1 1 1 1 0~
+    // luabbr        = ~Fi0~
+    // stweap        = ~PLAT05 USHLD3B HELMHUN BAG20 RING06 RING31 CLCK02 BOOT01 AMUL19 BRAC16 BELT06 AROW11,40 BULL03,40 BOLT06,40 POTN52,5 POTN04,2 POTN14,5 BOW18 XBOW09 STAF08~
+    clab_path     = ~override/J5HUNTER.2DA~
+    // kittable      = ~K_F_H K_F_D K_F_G K_F_E K_F_HE K_F_HL K_F_HO~
+    // EE-specific arguments
+    can_fall      = 0
+    // clsrcreq      = ~1 1 1 1 1 1 1~
+    // clswpbon      = ~1 0 2~
+    // hpclass       = ~HPWAR~
+    // numwslot      = ~4~
+    // clascolr      = ~30 91 93 23 93~
+    // bdstweap      = ~LEAT05 * HELM01 * RING06 * * * * BRAC09 BELT02 AROW02,40 BULL02,40 BOLT02,40 POTN08,5 POTN17,3 * BOW06 XBOW05 STAF02~
+    //~x-clserg~    = ~1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0~   // EEex-only: no -8 thac0 penalty when using bows or crossbows in melee range
+  RET
+    kit_id
+END
+
+PRINT ~J5HUNTER kit value = %kit_id%~
