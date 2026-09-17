@@ -13,8 +13,8 @@ Disadvantages:
 • cannot wear armor heavier than hide;  
 • cannot use swords, halberds, flails, hammers, or spiked maces;  
 • cannot learn the Sword and Shield style.
-
-
+  
+  
 Reasonable Ranger additions:
 • Alertness: Rangers gain a +2 sight radius
 • Toughness: Rangers gain a +4 bonus to death saving throws and a +25% bonus to poison resistance
